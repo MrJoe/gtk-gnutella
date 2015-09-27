@@ -6,6 +6,8 @@ os:
 osx_image: xcode6.4
 
 before_install:
+  - brew update || brew update
+  - brew install binutils
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then mkdir -p ~/gtk-gnutella && curl ${OBJECTSTORE_URL}gtk-gnutella-jhbuild.tar.bz2 | tar -jx  -C ~/gtk-gnutella || echo "Nothing prebuild" ; fi
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then curl https://git.gnome.org/browse/gtk-osx/plain/gtk-osx-build-setup.sh | sh; fi
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then cp -v osx/jhbuildrc-gtk-gnutella  ~/.jhbuildrc-gtk-gnutella && cp -v osx/gtk-gnutella.modules ~/gtk-gnutella.modules; fi

@@ -58,7 +58,7 @@ darwin|Darwin)
 osxbundle)
 	build_so_suffix='dylib'
 	build_osxbundle='true'
-	CPPFLAGS="$CPPFLAGS -DHAVE_GTKOSXAPPLICATION "
+	CPPFLAGS="$CPPFLAGS -DHAVE_GTKOSXAPPLICATION -O0 "
 	CPPFLAG="${CPPFLAGS# *}"    # strip leading spaces
 	LIBS="$LIBS `pkg-config gtk-mac-integration-gtk2 --libs` -liconv -lz"
 	LIBS="${LIBS# *}"           # strip leading spaces
