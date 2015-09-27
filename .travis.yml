@@ -22,9 +22,13 @@ install:
 
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then pushd gtk-mac-bundler; make install; popd; fi
 
+before_script:
+  - ulimit -c unlimited -S
+  - ulimit -a
+
 script:
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export PATH=$PATH:~/.local/bin; JHB=gtk-gnutella ~/.local/bin/jhbuild run ./build.sh --target=osxbundle 2>&1 | tee build.log ;fi
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then curl -X PUT --user ${OBJECTSTORE_USER}:${OBJECTSTORE_SECRET} ${OBJECTSTORE_URL}build.log -T build.log ;fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export PATH=$PATH:~/.local/bin; JHB=gtk-gnutella ~/.local/bin/jhbuild run ./build.sh --target=osxbundle --cppflags="-g -O0" 2>&1 | tee build.log ;fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then curl -X PUT --user ${OBJECTSTORE_USER}:${OBJECTSTORE_SECRET} ${OBJECTSTORE_URL} -T build.log ;fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then ./build.sh; fi
   - src/lib/random-test
   - src/lib/sort-test
@@ -35,7 +39,13 @@ script:
   - src/lib/thread-test -ABCDEIKMNOPQRSVWX -T1 -c2 -z player,test_signals
 
 after_script:
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then for f in ~/Library/Logs/DiagnosticReports/*; do curl -v -X PUT --user ${OBJECTSTORE_USER}:${OBJECTSTORE_SECRET} ${OBJECTSTORE_URL} -T $f ;done ;fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then for f in ~/Library/Logs/DiagnosticReports/*; do curl -v -X PUT --user ${OBJECTSTORE_USER}:${OBJECTSTORE_SECRET} ${OBJECTSTORE_URL} -T $f ;done ;fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then for f in /cores/*; do curl -X PUT --user ${OBJECTSTORE_USER}:${OBJECTSTORE_SECRET} ${OBJECTSTORE_URL} -T $f ;done ;fi
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then for f in ~/Desktop/*dmg; do curl -X PUT --user ${OBJECTSTORE_USER}:${OBJECTSTORE_SECRET} ${OBJECTSTORE_URL} -T $f ;done ;fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then dsymutil src/lib/thread-test; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then dsymutil src/gtk-gnutella; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then find . -name "*.dSYM" -print0 | tar -czvf osx-symbols.tar.gz --null -T - ; curl -X PUT --user ${OBJECTSTORE_USER}:${OBJECTSTORE_SECRET} ${OBJECTSTORE_URL} -T osx-symbols.tar.gz ;fi
 
 notifications:
   irc: "irc.freenode.net#gtk-gnutella"
