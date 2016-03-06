@@ -6,10 +6,10 @@ os:
 osx_image: xcode7.3
 
 before_install:
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then ./scripts/travis.osx.sh before_install; fi
+  - ./scripts/travis.$TRAVIS_OS_NAME.sh before_install
 
 install:
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then ./scripts/travis.osx.sh install; fi
+  - ./scripts/travis.$TRAVIS_OS_NAME.sh install
 
 script:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export PATH=$PATH:~/.local/bin; JHB=gtk-gnutella ~/.local/bin/jhbuild run ./build.sh --target=osxbundle 2>&1 | tee build.log ;fi
