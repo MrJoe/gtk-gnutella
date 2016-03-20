@@ -5,6 +5,6 @@ install:
  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -S base-devel msys2-devel bison mingw-w64-x86_64-toolchain mingw-w64-x86_64-gnutls mingw-w64-x86_64-zlib mingw-w64-x86_64-gtk2"
 
 build_script:
- - C:\msys64\usr\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER && ./scripts/appveyor.win64.sh"
+ - C:\msys64\usr\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER && ./scripts/appveyor.win64.sh configure"
  - C:\msys64\usr\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER && make"
 
