@@ -1,4 +1,5 @@
 install:
+ - C:\msys64\usr\bin\bash -lc "pacman --sync --refresh --refresh --needed --noconfirm msys2-runtime msys2-runtime-devel bash pacman pacman-mirrors"
  - C:\msys64\usr\bin\bash -lc "update-core"
  - C:\msys64\usr\bin\bash -lc "pacman -Su"
  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -S mingw-w64-gnutls"
