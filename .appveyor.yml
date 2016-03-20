@@ -5,5 +5,6 @@ install:
  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -S base-devel bison mingw-w64-x86_64-toolchain mingw-w64-x86_64-gnutls mingw-w64-x86_64-zlib mingw-w64-x86_64-gtk2"
 
 build_script:
- - C:\msys64\usr\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER && ./Configure -Oder --cppflags='-DMINGW32' "
+ - C:\msys64\usr\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER && ./Configure -Oder -D 'ccflags=-DMINGW32'"
  - C:\msys64\usr\bin\bash -lc "cd $APPVEYOR_BUILD_FOLDER && make"
+ 
