@@ -3,6 +3,8 @@
 case "$1" in
 'configure')
 	CPPFLAGS="-DMINGW32"
+	CPPFLAGS="$CPPFLAGS `pkg-config --cflags gnutls`"
+	CPPFLAGS="$CPPFLAGS `pkg-config --cflags glib-2.0`"
 	CPPFLAGS="$CPPFLAGS `pkg-config --cflags gtk+-win32-2.0`"
 	CPPFLAGS="$CPPFLAGS `pkg-config --cflags zlib`"
 	

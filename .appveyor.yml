@@ -1,3 +1,7 @@
+environment:
+    matrix:
+      MSYSTEM: MINGW64
+
 install:
  - C:\msys64\usr\bin\bash -lc "pacman --sync --refresh --refresh --needed --noconfirm msys2-runtime msys2-runtime-devel bash pacman pacman-mirrors"
  - C:\msys64\usr\bin\bash -lc "update-core"
